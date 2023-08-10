@@ -1,7 +1,7 @@
 #include "DataGenerator.h"
 #include <QDebug>
 
-DataGenerator::DataGenerator(unsigned int width, unsigned int height, double zAmp): m_width(width), m_height(height), m_zAmplitude(zAmp)
+DataGenerator::DataGenerator(int width, int length, double zAmp): m_width(width), m_length(length), m_zAmplitude(zAmp)
 {
 }
 
@@ -9,4 +9,11 @@ void DataGenerator::reset()
 {
 	m_sampleCount = 0;
 	qDebug() << "reset";
+}
+
+void DataGenerator::setWidthAndLength(int width, int length)
+{
+	reset();
+	m_width = width;
+	m_length = length;
 }

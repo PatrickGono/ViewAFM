@@ -1,6 +1,8 @@
 #include "Simulation.h"
-#include "DataGeneratorRidges.h"
+#include <QVector3D>
 #include <QDebug>
+
+#include "DataGeneratorRidges.h"
 
 Simulation* Simulation::m_instance = nullptr;
 
@@ -18,7 +20,7 @@ Simulation::Simulation(QObject *parent)
 {
 	qDebug() << "constructor called";
 
-	m_dataGenerator = std::make_shared<DataGeneratorRidges>(DataGeneratorRidges(100, 100, 1.0, 22));
+	m_dataGenerator = std::make_shared<DataGeneratorRidges>(DataGeneratorRidges(100, 100, 1.0, 3));
 
 	m_timer.start(100);
 	connect(&m_timer, &QTimer::timeout, this, &Simulation::update);
@@ -54,7 +56,9 @@ void Simulation::update()
 
 	if (m_state == State::RUNNING)
 	{
-		m_lastValue = m_dataGenerator->generateValue();
+		QVector3D newValue = m_dataGenerator->generateValue();
+		m_lastValue3D = newValue;
+		m_lastValue = QPointF(newValue.x(), newValue.z());
 		emit lastValueChanged();
 	}
 }
@@ -62,6 +66,11 @@ void Simulation::update()
 QPointF Simulation::getLastValue() const
 {
 	return m_lastValue;
+}
+
+QVector3D Simulation::getLastValue3D() const
+{
+	return m_lastValue3D;
 }
 
 void Simulation::setFps(double fps)
@@ -74,4 +83,14 @@ void Simulation::setFps(double fps)
 double Simulation::getFps() const
 {
 	return m_fps;
+}
+
+void Simulation::setWidthAndLength(int width, int length)
+{
+	if (m_state != State::IDLE)
+	{
+		m_state = State::IDLE;
+	}
+
+	m_dataGenerator->setWidthAndLength(width, length);
 }

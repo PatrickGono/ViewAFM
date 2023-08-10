@@ -77,6 +77,5 @@
     <None Include="qml\ControlPanel.qml">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="ViewAFM.pri" />
   </ItemGroup>
 </Project>

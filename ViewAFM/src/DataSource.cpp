@@ -6,7 +6,7 @@
 DataSource::DataSource(QObject* parent) : QObject(parent)
 {
 	qRegisterMetaType<QSurface3DSeries*>();
-	init();
+	init(100, 100);
 }
 
 DataSource::~DataSource()
@@ -20,30 +20,73 @@ void DataSource::clearData()
 	m_data.clear();
 }
 
-void DataSource::init()
+void DataSource::init(int width, int length)
 {
-	int rowCount = 10;
-	int columnCount = 10;
+	int rowCount = width;
+	int columnCount = length;
 
 	m_data.reserve(rowCount * 2);
-	for (int columnIndex = 0; columnIndex < 2 * columnCount; columnIndex++)
+	for (int rowIndex = 0; rowIndex < 2 * rowCount; rowIndex++)
 	{
 		m_data.append(new QSurfaceDataRow(columnCount * 2));
 	}
 
 	for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
 	{
-		float x = rowIndex / float(rowCount - 1);
-		QSurfaceDataRow& row = *(m_data[rowIndex]);
+		QSurfaceDataRow& row = *m_data[rowIndex];
 
 		for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
 		{
-			float z = columnIndex / float(columnCount - 1);
-			float y = 0.5f * (std::sin(std::numbers::pi * x) + std::sin(std::numbers::pi * z));
-			y *= y;
-			row[columnIndex] = QVector3D(x, y, z);
+			QSurfaceDataItem& item = row[columnIndex];
+			item.setPosition(QVector3D(rowIndex, 0.0, columnIndex));
 		}
 	}
+
+	if (m_resetArray == nullptr)
+	{
+		return;
+	}
+
+	for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+	{
+		QSurfaceDataRow& row = *(*m_resetArray)[rowIndex];
+
+		for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+		{
+			QSurfaceDataItem& item = row[columnIndex];
+			item.setPosition(QVector3D(rowIndex, 0.0, columnIndex));
+		}
+	}
+
+}
+
+void DataSource::setWidthAndLength(int width, int length)
+{
+	if (!m_data.isEmpty())
+	{
+		clearData();
+		qDebug() << "cleared data";
+	}
+
+	if (m_resetArray != nullptr)
+	{
+		// delete m_resetArray;
+		// qDebug() << "deleted reset array";
+	}
+
+	init(width, length);
+	qDebug() << "run init";
+}
+
+void DataSource::addData(int rowIndex, int columnIndex, double value)
+{
+	// need to swap y and z values
+	QSurfaceDataRow& row = *m_data[rowIndex];
+	QSurfaceDataItem& item = row[columnIndex];
+	item.setPosition(QVector3D(rowIndex, value, columnIndex));
+
+	//qDebug() << rowIndex << columnIndex;
+	//m_filledColumnCount = std::max(m_filledColumnCount, columnIndex + 1);
 }
 
 void DataSource::update(QSurface3DSeries* series)
@@ -56,9 +99,13 @@ void DataSource::update(QSurface3DSeries* series)
 	int newRowCount = m_data.size();
 	int newColumnCount = m_data.at(0)->size();
 
-	if (!m_resetArray || series->dataProxy()->rowCount() != newRowCount || series->dataProxy()->columnCount() != newColumnCount)
+	if (series->dataProxy()->rowCount() != newRowCount || series->dataProxy()->columnCount() != newColumnCount)
 	{
-		m_resetArray = new QSurfaceDataArray();
+		if (m_resetArray == nullptr)
+		{
+			m_resetArray = new QSurfaceDataArray();
+		}
+
 		m_resetArray->reserve(newRowCount);
 		for (int i = 0; i < newRowCount; i++)
 		{

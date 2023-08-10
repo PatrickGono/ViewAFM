@@ -7,8 +7,8 @@ private:
 	double m_period{0.0};
 
 public:
-	DataGeneratorRidges(unsigned int width, unsigned int height, double zAmp, double period);
+	DataGeneratorRidges(int width, int length, double zAmp, double period);
 
-	QPointF generateValue() override;
+	QVector3D generateValue() override;
 };
 

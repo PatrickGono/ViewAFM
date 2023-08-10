@@ -3,6 +3,13 @@ import QtDataVisualization
 import DataSource
 
 Item {
+	function setWidthAndLength(width, length) {
+		surfaceGraph.axisX.max = width
+		surfaceGraph.axisZ.max = length
+
+		dataSource.setWidthAndLength(width, length)
+	}
+
 	DataSource {
 		id: dataSource
 	}
@@ -10,6 +17,7 @@ Item {
     Connections {
         target: Simulation
         function onLastValueChanged() {
+			dataSource.addData(Simulation.lastValue3D.x, Simulation.lastValue3D.y, Simulation.lastValue3D.z)
 			dataSource.update(surfaceSeries)
         }
     }
@@ -20,7 +28,7 @@ Item {
 
 		Surface3DSeries {
 			id: surfaceSeries
-			drawMode: Surface3DSeries.DrawSurface
+			drawMode: Surface3DSeries.DrawWireframe
 			colorStyle: Theme3D.ColorStyleRangeGradient
 			itemLabelFormat: "@xLabel, @zLabel: @yLabel"
 			itemLabelVisible: false
@@ -30,10 +38,10 @@ Item {
 		renderingMode: AbstractGraph3D.RenderDirectToBackground
 
 		axisX.min: 0.0
-		axisX.max: 1.0
-		axisY.min: 0.0
-		axisY.max: 1.5
+		axisX.max: 100.0
+		axisY.min: -5.0
+		axisY.max: 5.0
 		axisZ.min: 0.0
-		axisZ.max: 1.0
+		axisZ.max: 100.0
 	}
 }

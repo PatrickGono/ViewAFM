@@ -13,11 +13,13 @@ Window {
         Column {
             Layout.preferredWidth: mainWindow.width - 200
             View2D {
+                id: surfaceView
                 anchors.margins: 20
                 width: parent.width
                 height: mainWindow.height - 300
             }
             View1D {
+                id: profileView
                 anchors.margins: 20
                 width: parent.width
                 height: 300
@@ -25,7 +27,18 @@ Window {
         }
 
         ControlPanel {
+            id: controlPanel
             Layout.preferredWidth: 200
+        }
+
+        Connections {
+            target: controlPanel
+            function onDataWidthChanged() {
+                surfaceView.setWidthAndLength(controlPanel.dataWidth, controlPanel.dataLength);
+            }
+            function onDataLengthChanged() {
+                surfaceView.setWidthAndLength(controlPanel.dataWidth, controlPanel.dataLength);
+            }
         }
     }
 }

@@ -98,7 +98,6 @@
     <None Include="qml\ControlPanel.qml" />
     <None Include="qml\View1D.qml" />
     <None Include="qml\View2D.qml" />
-    <None Include="ViewAFM.pri" />
     <QtRcc Include="qml\qml.qrc" />
     <None Include="qml\main.qml" />
   </ItemGroup>

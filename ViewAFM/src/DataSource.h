@@ -11,14 +11,19 @@ public:
 	DataSource(QObject* parent = nullptr);
     ~DataSource();
 
+	Q_INVOKABLE void addData(int rowIndex, int columnIndex, double height);
 	Q_INVOKABLE void update(QSurface3DSeries* series);
+	Q_INVOKABLE void setWidthAndLength(int width, int length);
+
+	void init(int width, int length);
 
 private:
-	void clearData();
-	void init();
-
+	int m_width{10};
+	int m_height{10};
 	QSurfaceDataArray m_data;
-	int m_index = -1;
 	QSurfaceDataArray* m_resetArray = nullptr;
+
+	void clearData();
+	//int m_filledColumnCount{1};
 };
 
