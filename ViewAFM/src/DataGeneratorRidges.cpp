@@ -13,10 +13,27 @@ QVector3D DataGeneratorRidges::generateValue()
     double param = static_cast<double>(m_sampleCount % m_width) / m_period * std::numbers::pi;
     double prefactor = 4.0 * m_zAmplitude / std::numbers::pi;
 
-    double height = prefactor * (std::sin(param) + 0.333333 * std::sin(3.0 * param) + 0.2 * std::sin(5.0 * param));
+    double height = prefactor * firstNSineTerms(4, param);
     int xPos = m_sampleCount % m_width;
     int yPos = std::floor(m_sampleCount / m_length);
     
     m_sampleCount++;
     return QVector3D(xPos, yPos, height);
+}
+
+double DataGeneratorRidges::sineTerm(int n, double x) const
+{
+    return 1.0 / n * std::sin(n * x);
+}
+
+double DataGeneratorRidges::firstNSineTerms(int n, double x) const
+{
+    double sum{0.0};
+    for (int termIndex = 0; termIndex < n; termIndex++)
+    {
+        int i = 1 + 2 * termIndex;
+        sum += sineTerm(i, x);
+    }
+
+    return sum;
 }

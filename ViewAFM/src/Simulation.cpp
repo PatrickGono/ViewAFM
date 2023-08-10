@@ -20,7 +20,7 @@ Simulation::Simulation(QObject *parent)
 {
 	qDebug() << "constructor called";
 
-	m_dataGenerator = std::make_shared<DataGeneratorRidges>(DataGeneratorRidges(100, 100, 1.0, 3));
+	m_dataGenerator = std::make_shared<DataGeneratorRidges>(DataGeneratorRidges(100, 100, 1.0, 30));
 
 	m_timer.start(100);
 	connect(&m_timer, &QTimer::timeout, this, &Simulation::update);
