@@ -35,9 +35,17 @@ Window {
             target: controlPanel
             function onDataWidthChanged() {
                 surfaceView.setWidthAndLength(controlPanel.dataWidth, controlPanel.dataLength);
+                profileView.setWidth(controlPanel.dataWidth)
             }
             function onDataLengthChanged() {
                 surfaceView.setWidthAndLength(controlPanel.dataWidth, controlPanel.dataLength);
+            }
+        }
+
+        Connections {
+            target: controlPanel
+            function onReset() {
+                surfaceView.reset()
             }
         }
     }

@@ -7,10 +7,12 @@ Item {
     width: 200
     property var dataWidth: 100
     property var dataLength: 100
+    signal reset;
 
     ColumnLayout {
         spacing: 30
         Button {
+            id: buttonStart
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: controlPanel.width - 20
             text: "START"
@@ -19,6 +21,7 @@ Item {
             }
         }
         Button {
+            id: buttonPause
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: controlPanel.width - 20
             text: "PAUSE"
@@ -27,11 +30,13 @@ Item {
             }
         }
         Button {
+            id: buttonReset
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: controlPanel.width - 20
             text: "RESET"
             onClicked: {
                 Simulation.reset()
+                controlPanel.reset()
             }
         }
         Slider {
@@ -53,6 +58,8 @@ Item {
             to: 100
             value: 100
             onMoved: {
+                Simulation.reset()
+                Simulation.setWidthAndLength(widthSlider.value, lengthSlider.value)
                 controlPanel.dataWidth = widthSlider.value
             }
         }
@@ -64,6 +71,8 @@ Item {
             to: 100
             value: 100
             onMoved: {
+                Simulation.reset()
+                Simulation.setWidthAndLength(widthSlider.value, lengthSlider.value)
                 controlPanel.dataLength = lengthSlider.value
             }
         }

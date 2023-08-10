@@ -10,6 +10,7 @@ class Simulation : public QObject
 	Q_PROPERTY(QPointF lastValue READ getLastValue NOTIFY lastValueChanged)
 	Q_PROPERTY(QVector3D lastValue3D READ getLastValue3D NOTIFY lastValueChanged)
 	Q_PROPERTY(double fps READ getFps WRITE setFps NOTIFY fpsChanged)
+	Q_PROPERTY(int xRange READ getXRange NOTIFY xRangeChanged)
 
 	enum class State
 	{
@@ -26,6 +27,7 @@ private:
 	QPointF m_lastValue;
 	QVector3D m_lastValue3D;
 	double m_fps{30.0};
+	int m_xRange{100};
 
 	Simulation(QObject* parent = nullptr);
 
@@ -44,8 +46,11 @@ public:
 	double getFps() const;
 	void setFps(double fps);
 
+	int getXRange() const;
+
 signals:
 	void lastValueChanged();
 	void fpsChanged();
+	void xRangeChanged();
 };
 

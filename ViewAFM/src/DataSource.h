@@ -14,12 +14,13 @@ public:
 	Q_INVOKABLE void addData(int rowIndex, int columnIndex, double height);
 	Q_INVOKABLE void update(QSurface3DSeries* series);
 	Q_INVOKABLE void setWidthAndLength(int width, int length);
+	Q_INVOKABLE void clear(QSurface3DSeries* series);
 
-	void init(int width, int length);
+	void init();
 
 private:
-	int m_width{10};
-	int m_height{10};
+	int m_width{100};
+	int m_length{100};
 	QSurfaceDataArray m_data;
 	QSurfaceDataArray* m_resetArray = nullptr;
 

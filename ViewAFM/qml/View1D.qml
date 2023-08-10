@@ -2,9 +2,7 @@
 import QtCharts
 
 Item {
-    property var startTime: Date.now()
-    property var xRange: Simulation.xRange;
-    property var yRange: Simulation.heightRange;
+    id: profileView
 
     Connections {
         target: Simulation
@@ -23,7 +21,7 @@ Item {
         ValueAxis {
             id: xAxis
             min: 0
-            max: 100
+            max: Simulation.xRange
             titleText: "x location (mm)"
         }
 
@@ -40,5 +38,4 @@ Item {
             axisY: zAxis
         }
     }
-
 }

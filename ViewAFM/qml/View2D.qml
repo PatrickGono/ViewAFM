@@ -10,6 +10,10 @@ Item {
 		dataSource.setWidthAndLength(width, length)
 	}
 
+	function reset() {
+		dataSource.clear(surfaceSeries)
+	}
+
 	DataSource {
 		id: dataSource
 	}

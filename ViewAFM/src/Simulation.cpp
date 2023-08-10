@@ -85,6 +85,11 @@ double Simulation::getFps() const
 	return m_fps;
 }
 
+int Simulation::getXRange() const
+{
+	return m_xRange;
+}
+
 void Simulation::setWidthAndLength(int width, int length)
 {
 	if (m_state != State::IDLE)
@@ -93,4 +98,6 @@ void Simulation::setWidthAndLength(int width, int length)
 	}
 
 	m_dataGenerator->setWidthAndLength(width, length);
+	m_xRange = width;
+	emit xRangeChanged();
 }

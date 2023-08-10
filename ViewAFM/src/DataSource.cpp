@@ -6,7 +6,7 @@
 DataSource::DataSource(QObject* parent) : QObject(parent)
 {
 	qRegisterMetaType<QSurface3DSeries*>();
-	init(100, 100);
+	init();
 }
 
 DataSource::~DataSource()
@@ -20,10 +20,10 @@ void DataSource::clearData()
 	m_data.clear();
 }
 
-void DataSource::init(int width, int length)
+void DataSource::init()
 {
-	int rowCount = width;
-	int columnCount = length;
+	int rowCount = m_width;
+	int columnCount = m_length;
 
 	m_data.reserve(rowCount * 2);
 	for (int rowIndex = 0; rowIndex < 2 * rowCount; rowIndex++)
@@ -41,41 +41,19 @@ void DataSource::init(int width, int length)
 			item.setPosition(QVector3D(rowIndex, 0.0, columnIndex));
 		}
 	}
-
-	if (m_resetArray == nullptr)
-	{
-		return;
-	}
-
-	for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
-	{
-		QSurfaceDataRow& row = *(*m_resetArray)[rowIndex];
-
-		for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-		{
-			QSurfaceDataItem& item = row[columnIndex];
-			item.setPosition(QVector3D(rowIndex, 0.0, columnIndex));
-		}
-	}
-
 }
 
 void DataSource::setWidthAndLength(int width, int length)
 {
-	if (!m_data.isEmpty())
-	{
-		clearData();
-		qDebug() << "cleared data";
-	}
+	clearData();
 
-	if (m_resetArray != nullptr)
-	{
-		// delete m_resetArray;
-		// qDebug() << "deleted reset array";
-	}
+	qDeleteAll(*m_resetArray);
+	m_resetArray->clear();
 
-	init(width, length);
-	qDebug() << "run init";
+	m_width = width;
+	m_length = length;
+
+	init();
 }
 
 void DataSource::addData(int rowIndex, int columnIndex, double value)
@@ -84,9 +62,20 @@ void DataSource::addData(int rowIndex, int columnIndex, double value)
 	QSurfaceDataRow& row = *m_data[rowIndex];
 	QSurfaceDataItem& item = row[columnIndex];
 	item.setPosition(QVector3D(rowIndex, value, columnIndex));
+}
 
-	//qDebug() << rowIndex << columnIndex;
-	//m_filledColumnCount = std::max(m_filledColumnCount, columnIndex + 1);
+void DataSource::clear(QSurface3DSeries* series)
+{	
+	int rowCount = series->dataProxy()->rowCount();
+	int columnCount = series->dataProxy()->rowCount();
+
+	qDeleteAll(*m_resetArray);
+	m_resetArray->clear();
+
+	clearData();
+
+	init();
+	update(series);
 }
 
 void DataSource::update(QSurface3DSeries* series)
@@ -120,14 +109,5 @@ void DataSource::update(QSurface3DSeries* series)
 		std::copy(sourceRow.cbegin(), sourceRow.cend(), row.begin());
 	}
 
-
-	for (int i = 0; i < newRowCount; ++i)
-	{
-		const QSurfaceDataRow& row = *(m_resetArray->at(i));
-		for (int j = 0; j < newColumnCount; j++)
-		{
-			//qDebug() << row.at(j).x() << " " << row.at(j).y() << " " << row.at(j).z();
-		}
-	}
 	series->dataProxy()->resetArray(m_resetArray);
 }
