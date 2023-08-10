@@ -39,41 +39,62 @@ Item {
                 controlPanel.reset()
             }
         }
-        Slider {
-            id: fpsSlider
-            Layout.alignment: Qt.AlignHCenter
+        RowLayout {
             Layout.preferredWidth: controlPanel.width - 20
-            from: 10
-            to: 200
-            value: 30
-            onMoved: {
-                Simulation.fps = fpsSlider.value
+            Label {
+                Layout.preferredWidth: 50
+                text: "FPS:"
+            }
+            Slider {
+                id: sliderFps
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
+                from: 10
+                to: 200
+                value: 30
+                onMoved: {
+                    Simulation.fps = sliderFps.value
+                }
             }
         }
-        Slider {
-            id: widthSlider
-            Layout.alignment: Qt.AlignHCenter
+        RowLayout {
             Layout.preferredWidth: controlPanel.width - 20
-            from: 10
-            to: 100
-            value: 100
-            onMoved: {
-                Simulation.reset()
-                Simulation.setWidthAndLength(widthSlider.value, lengthSlider.value)
-                controlPanel.dataWidth = widthSlider.value
+            Label {
+                Layout.preferredWidth: 50
+                text: "Width:"
+            }
+            Slider {
+                id: widthSlider
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
+                from: 10
+                to: 100
+                value: 100
+                onMoved: {
+                    Simulation.reset()
+                    Simulation.setWidthAndLength(widthSlider.value, lengthSlider.value)
+                    controlPanel.dataWidth = widthSlider.value
+                }
             }
         }
-        Slider {
-            id: lengthSlider
-            Layout.alignment: Qt.AlignHCenter
+        RowLayout {
             Layout.preferredWidth: controlPanel.width - 20
-            from: 10
-            to: 100
-            value: 100
-            onMoved: {
-                Simulation.reset()
-                Simulation.setWidthAndLength(widthSlider.value, lengthSlider.value)
-                controlPanel.dataLength = lengthSlider.value
+            Label {
+                Layout.preferredWidth: 50
+                text: "Length:"
+            }
+            Slider {
+                id: lengthSlider
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
+                from: 10
+                to: 100
+                value: 100
+                onMoved: {
+                    Simulation.reset()
+                    Simulation.setWidthAndLength(widthSlider.value, lengthSlider.value)
+                    controlPanel.dataLength = lengthSlider.value
+                }
             }
         }
     }

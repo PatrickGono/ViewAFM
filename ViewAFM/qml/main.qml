@@ -30,22 +30,22 @@ Window {
             id: controlPanel
             Layout.preferredWidth: 200
         }
+    }
 
-        Connections {
-            target: controlPanel
-            function onDataWidthChanged() {
-                surfaceView.setWidthAndLength(controlPanel.dataWidth, controlPanel.dataLength);
-            }
-            function onDataLengthChanged() {
-                surfaceView.setWidthAndLength(controlPanel.dataWidth, controlPanel.dataLength);
-            }
+    Connections {
+        target: controlPanel
+        function onDataWidthChanged() {
+            surfaceView.setWidthAndLength(controlPanel.dataWidth, controlPanel.dataLength);
         }
+        function onDataLengthChanged() {
+            surfaceView.setWidthAndLength(controlPanel.dataWidth, controlPanel.dataLength);
+        }
+    }
 
-        Connections {
-            target: controlPanel
-            function onReset() {
-                surfaceView.reset()
-            }
+    Connections {
+        target: controlPanel
+        function onReset() {
+            surfaceView.reset()
         }
     }
 }
