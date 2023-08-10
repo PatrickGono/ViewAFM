@@ -1,4 +1,5 @@
 #include "DataSource.h"
+#include <QDebug>
 #include <algorithm>
 #include <numbers>
 
@@ -22,27 +23,24 @@ void DataSource::clearData()
 void DataSource::init()
 {
 	int rowCount = 10;
-	int columnCount = 12;
+	int columnCount = 10;
 
-	for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+	m_data.reserve(rowCount * 2);
+	for (int columnIndex = 0; columnIndex < 2 * columnCount; columnIndex++)
 	{
-		m_data.reserve(rowCount);
-		for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-		{
-			m_data.append(new QSurfaceDataRow(columnCount));
-		}
+		m_data.append(new QSurfaceDataRow(columnCount * 2));
 	}
 
 	for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
 	{
+		float x = rowIndex / float(rowCount - 1);
 		QSurfaceDataRow& row = *(m_data[rowIndex]);
 
 		for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
 		{
-			float x = rowIndex / float(rowCount);
-			float y = columnIndex / float(columnCount);
-			float z = std::sin(std::numbers::pi * (x + y));
-			z *= z;
+			float z = columnIndex / float(columnCount - 1);
+			float y = 0.5f * (std::sin(std::numbers::pi * x) + std::sin(std::numbers::pi * z));
+			y *= y;
 			row[columnIndex] = QVector3D(x, y, z);
 		}
 	}
@@ -75,5 +73,14 @@ void DataSource::update(QSurface3DSeries* series)
 		std::copy(sourceRow.cbegin(), sourceRow.cend(), row.begin());
 	}
 
+
+	for (int i = 0; i < newRowCount; ++i)
+	{
+		const QSurfaceDataRow& row = *(m_resetArray->at(i));
+		for (int j = 0; j < newColumnCount; j++)
+		{
+			//qDebug() << row.at(j).x() << " " << row.at(j).y() << " " << row.at(j).z();
+		}
+	}
 	series->dataProxy()->resetArray(m_resetArray);
 }
