@@ -1,8 +1,11 @@
 #include "DataSource.h"
+#include <algorithm>
+#include <numbers>
 
 DataSource::DataSource(QObject* parent) : QObject(parent)
 {
 	qRegisterMetaType<QSurface3DSeries*>();
+	init();
 }
 
 DataSource::~DataSource()
@@ -14,6 +17,35 @@ void DataSource::clearData()
 {	
 	qDeleteAll(m_data);
 	m_data.clear();
+}
+
+void DataSource::init()
+{
+	int rowCount = 10;
+	int columnCount = 12;
+
+	for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+	{
+		m_data.reserve(rowCount);
+		for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+		{
+			m_data.append(new QSurfaceDataRow(columnCount));
+		}
+	}
+
+	for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+	{
+		QSurfaceDataRow& row = *(m_data[rowIndex]);
+
+		for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+		{
+			float x = rowIndex / float(rowCount);
+			float y = columnIndex / float(columnCount);
+			float z = std::sin(std::numbers::pi * (x + y));
+			z *= z;
+			row[columnIndex] = QVector3D(x, y, z);
+		}
+	}
 }
 
 void DataSource::update(QSurface3DSeries* series)

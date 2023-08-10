@@ -15,6 +15,7 @@ public:
 
 private:
 	void clearData();
+	void init();
 
 	QSurfaceDataArray m_data;
 	int m_index = -1;
