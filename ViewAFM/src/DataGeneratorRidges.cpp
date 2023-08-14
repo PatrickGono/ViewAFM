@@ -15,8 +15,7 @@ QVector3D DataGeneratorRidges::generateValue()
 
     double height = prefactor * firstNSineTerms(4, param);
     int xPos = m_sampleCount % m_width;
-    int yPos = std::floor(m_sampleCount / m_length);
-    
+    int yPos = std::floor(m_sampleCount / m_width);
     m_sampleCount++;
     return QVector3D(xPos, yPos, height);
 }
