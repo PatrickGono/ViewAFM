@@ -50,7 +50,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignHCenter
                 from: 10
-                to: 200
+                to: 100
                 value: 30
                 onMoved: {
                     Simulation.fps = sliderFps.value

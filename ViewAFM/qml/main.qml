@@ -29,6 +29,7 @@ Window {
         ControlPanel {
             id: controlPanel
             Layout.preferredWidth: 200
+            Layout.alignment: Qt.AlignTop
         }
     }
 
