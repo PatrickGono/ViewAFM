@@ -18,6 +18,12 @@ void DataSource::clearData()
 {	
 	qDeleteAll(m_data);
 	m_data.clear();
+
+	if (m_resetArray != nullptr)
+	{
+		qDeleteAll(*m_resetArray);
+		m_resetArray->clear();
+	}
 }
 
 void DataSource::init()
@@ -47,9 +53,6 @@ void DataSource::setWidthAndLength(int width, int length)
 {
 	clearData();
 
-	qDeleteAll(*m_resetArray);
-	m_resetArray->clear();
-
 	m_width = width;
 	m_length = length;
 
@@ -68,12 +71,6 @@ void DataSource::clear(QSurface3DSeries* series)
 {	
 	int rowCount = series->dataProxy()->rowCount();
 	int columnCount = series->dataProxy()->rowCount();
-
-	if (m_resetArray != nullptr)
-	{
-		qDeleteAll(*m_resetArray);
-		m_resetArray->clear();
-	}
 
 	clearData();
 

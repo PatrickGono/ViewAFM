@@ -8,7 +8,6 @@ DataGenerator::DataGenerator(int width, int length, double zAmp): m_width(width)
 void DataGenerator::reset()
 {
 	m_sampleCount = 0;
-	qDebug() << "reset";
 }
 
 void DataGenerator::setWidthAndLength(int width, int length)

@@ -12,14 +12,11 @@ Simulation* Simulation::getSimulation()
 	{
 		m_instance = new Simulation();
 	}
-	qDebug() << "getSimulation() called";
 	return m_instance;
 }
 
 Simulation::Simulation(QObject *parent)
 {
-	qDebug() << "constructor called";
-
 	m_dataGenerator = std::make_shared<DataGeneratorRidges>(DataGeneratorRidges(100, 100, 1.0, 10));
 
 	m_timer.start(100);

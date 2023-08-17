@@ -17,6 +17,7 @@ Item {
     ChartView {
         id: view1D
         anchors.fill: parent
+        legend.visible: false
 
         ValueAxis {
             id: xAxis
