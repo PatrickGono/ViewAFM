@@ -22,14 +22,14 @@ Item {
             id: xAxis
             min: 0
             max: Simulation.xRange
-            titleText: "x location (mm)"
+            titleText: "x location"
         }
 
         ValueAxis {
             id: zAxis
             min: -2
             max: 2
-            titleText: "height (um)"
+            titleText: "height"
         }
 
         LineSeries {

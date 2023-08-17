@@ -68,7 +68,7 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <None Include="qml\View2D.qml">
+    <None Include="qml\View3D.qml">
       <Filter>Source Files</Filter>
     </None>
     <None Include="qml\View1D.qml">

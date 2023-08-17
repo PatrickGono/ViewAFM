@@ -1,5 +1,6 @@
 #include "DataGeneratorRidges.h"
 #include <QDebug>
+#include <QRandomGenerator>
 #include <numbers>
 #include <cmath>
 
@@ -13,7 +14,7 @@ QVector3D DataGeneratorRidges::generateValue()
     double param = static_cast<double>(m_sampleCount % m_width) / m_period * std::numbers::pi;
     double prefactor = 4.0 * m_zAmplitude / std::numbers::pi;
 
-    double height = prefactor * firstNSineTerms(5, param);
+    double height = prefactor * firstNSineTerms(5, param) + QRandomGenerator::global()->generateDouble();
     int xPos = m_sampleCount % m_width;
     int yPos = std::floor(m_sampleCount / m_width);
     m_sampleCount++;

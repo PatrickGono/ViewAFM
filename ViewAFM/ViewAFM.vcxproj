@@ -97,7 +97,7 @@
     <ClCompile Include="src\SurfaceData.cpp" />
     <None Include="qml\ControlPanel.qml" />
     <None Include="qml\View1D.qml" />
-    <None Include="qml\View2D.qml" />
+    <None Include="qml\View3D.qml" />
     <QtRcc Include="qml\qml.qrc" />
     <None Include="qml\main.qml" />
   </ItemGroup>

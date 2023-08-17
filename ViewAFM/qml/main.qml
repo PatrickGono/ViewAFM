@@ -12,7 +12,7 @@ Window {
     RowLayout {
         Column {
             Layout.preferredWidth: mainWindow.width - 200
-            View2D {
+            View3D {
                 id: surfaceView
                 anchors.margins: 20
                 width: parent.width

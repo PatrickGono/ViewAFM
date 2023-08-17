@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>View1D.qml</file>
-        <file>View2D.qml</file>
         <file>ControlPanel.qml</file>
+        <file>View3D.qml</file>
     </qresource>
 </RCC>
