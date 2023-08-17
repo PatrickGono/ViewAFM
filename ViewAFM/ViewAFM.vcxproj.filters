@@ -32,9 +32,6 @@
     <None Include="qml\main.qml">
       <Filter>Source Files</Filter>
     </None>
-    <ClCompile Include="src\SurfaceData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DataGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,9 +46,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\SurfaceData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\DataGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
